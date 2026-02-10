@@ -321,11 +321,6 @@ export default function Home() {
                 <CardTitle className="text-2xl mb-2">{plan.name}</CardTitle>
                 <div className="flex flex-col items-center gap-2">
                   <span className="text-4xl font-bold text-primary">¥{plan.price}</span>
-                  {plan.valueTag && (
-                    <Badge variant="secondary" className="text-xs">
-                      {plan.valueTag}
-                    </Badge>
-                  )}
                 </div>
               </CardHeader>
               <CardContent className="space-y-3">
