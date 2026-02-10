@@ -8,12 +8,14 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
+import { Navbar } from "@/components/Navbar";
+import { ConsultModal } from "@/components/ConsultModal";
 import { PaymentModal } from "@/components/PaymentModal";
 import { ASSETS } from "@/lib/assets";
 import { courseModules, pricingPlans, coreFeatures, painPoints, faqs } from "@/lib/courseData";
 import { 
   Target, Briefcase, Users, TrendingUp, Award, Zap, 
-  CheckCircle2, ArrowRight, MessageCircle, Send 
+  CheckCircle2, ArrowRight, MessageCircle, Send, Download, BookOpen 
 } from "lucide-react";
 
 const iconMap = {
@@ -21,6 +23,7 @@ const iconMap = {
 };
 
 export default function Home() {
+  const [consultModal, setConsultModal] = useState(false);
   const [paymentModal, setPaymentModal] = useState<{
     open: boolean;
     planName: string;
@@ -43,14 +46,15 @@ export default function Home() {
     <div className="min-h-screen" style={{
       background: "linear-gradient(135deg, #E0E7FF 0%, #F3E8FF 100%)",
     }}>
+      {/* Navigation Bar */}
+      <Navbar onConsultClick={() => setConsultModal(true)} />
+
+      {/* Spacer for fixed navbar */}
+      <div className="h-20" />
+
       {/* Hero Section */}
-      <section className="container py-20 md:py-32">
+      <section id="hero" className="container py-20 md:py-32">
         <div className="flex flex-col items-center text-center space-y-8">
-          <img 
-            src={ASSETS.logo} 
-            alt="Web3求职课程Logo" 
-            className="w-32 h-32 md:w-40 md:h-40 object-contain animate-fade-in"
-          />
           <div className="space-y-4 max-w-4xl">
             <h1 className="text-4xl md:text-6xl font-bold text-foreground leading-tight" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
               这可能是你进入Web3的<br />
@@ -66,9 +70,9 @@ export default function Home() {
             <Button 
               size="lg" 
               className="text-lg px-8 py-6 rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-105"
-              onClick={() => document.getElementById("pricing")?.scrollIntoView({ behavior: "smooth" })}
+              onClick={() => setConsultModal(true)}
             >
-              立即报名 <ArrowRight className="ml-2 h-5 w-5" />
+              预约咨询 ¥299 <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
             <Button 
               size="lg" 
@@ -79,7 +83,49 @@ export default function Home() {
               查看课程大纲
             </Button>
           </div>
+          <p className="text-sm text-muted-foreground mt-4">
+            💡 咨询费购课可全额抵扣,相当于免费获得专业咨询
+          </p>
         </div>
+      </section>
+
+      {/* Free Guide Download Section */}
+      <section className="container py-16">
+        <Card className="bg-gradient-to-br from-purple-500 to-blue-600 text-white border-none shadow-2xl rounded-3xl overflow-hidden">
+          <CardContent className="p-8 md:p-12">
+            <div className="flex flex-col md:flex-row items-center gap-8">
+              <div className="flex-shrink-0">
+                <div className="w-24 h-24 bg-white/20 backdrop-blur-sm rounded-3xl flex items-center justify-center">
+                  <BookOpen className="h-12 w-12 text-white" />
+                </div>
+              </div>
+              <div className="flex-1 text-center md:text-left">
+                <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                  免费领取《Web3求职终极宝典》
+                </h2>
+                <p className="text-lg text-white/90 mb-6">
+                  2026最新行业趋势报告 · 50个必备Web3黑话词典 · 10个常见面试问题 · 拿满Offer的简历模板
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                  <Button 
+                    size="lg"
+                    variant="secondary"
+                    className="rounded-full px-8 py-6 text-lg bg-white text-purple-600 hover:bg-white/90"
+                    onClick={() => {
+                      document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+                    }}
+                  >
+                    <Download className="mr-2 h-5 w-5" />
+                    立即领取
+                  </Button>
+                  <p className="text-sm text-white/80 self-center">
+                    添加微信/Telegram即可免费获取
+                  </p>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </section>
 
       {/* Pain Points Section */}
@@ -192,7 +238,7 @@ export default function Home() {
       </section>
 
       {/* Instructors Section */}
-      <section className="container py-20">
+      <section id="instructors" className="container py-20">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
             顶级导师团队
@@ -273,25 +319,25 @@ export default function Home() {
               )}
               <CardHeader className="text-center pt-8">
                 <CardTitle className="text-2xl mb-2">{plan.name}</CardTitle>
-                <div className="flex items-center justify-center gap-2">
-                  {plan.originalPrice && (
-                    <span className="text-lg text-muted-foreground line-through">
-                      ¥{plan.originalPrice}
-                    </span>
-                  )}
+                <div className="flex flex-col items-center gap-2">
                   <span className="text-4xl font-bold text-primary">¥{plan.price}</span>
+                  {plan.valueTag && (
+                    <Badge variant="secondary" className="text-xs">
+                      {plan.valueTag}
+                    </Badge>
+                  )}
                 </div>
               </CardHeader>
               <CardContent className="space-y-3">
                 {plan.features.map((feature, idx) => (
                   <div key={idx} className="flex items-start gap-2">
                     <CheckCircle2 className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                    <span className="text-foreground">{feature}</span>
+                    <span className="text-foreground text-sm">{feature}</span>
                   </div>
                 ))}
                 {plan.guarantee && (
                   <div className="mt-4 p-3 bg-green-50 rounded-xl border-2 border-green-200">
-                    <p className="text-sm text-green-800 font-semibold text-center">
+                    <p className="text-xs text-green-800 font-semibold text-center">
                       🛡️ {plan.guarantee}
                     </p>
                   </div>
@@ -341,8 +387,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="container py-16 border-t border-border/50">
+      {/* Footer / Contact Section */}
+      <footer id="contact" className="container py-16 border-t border-border/50">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-8">
             <h3 className="text-2xl font-bold mb-4" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
@@ -405,7 +451,12 @@ export default function Home() {
         </div>
       </footer>
 
-      {/* Payment Modal */}
+      {/* Modals */}
+      <ConsultModal 
+        open={consultModal}
+        onOpenChange={setConsultModal}
+      />
+      
       <PaymentModal 
         open={paymentModal.open}
         onOpenChange={(open) => setPaymentModal({ ...paymentModal, open })}
