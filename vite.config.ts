@@ -168,7 +168,7 @@ export default defineConfig(({ mode }) => ({
     emptyOutDir: true,
   },
   // GitHub Pages base path - change if deploying to repo subdirectory
-  base: process.env.GITHUB_PAGES_BASE || "/web3-course-landing/",
+  base: process.env.GITHUB_PAGES_BASE || "/",
   server: {
     port: 3000,
     strictPort: false, // Will find next available port if 3000 is busy
