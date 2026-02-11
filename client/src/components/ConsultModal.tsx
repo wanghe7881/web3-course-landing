@@ -16,9 +16,9 @@ interface ConsultModalProps {
 export function ConsultModal({ open, onOpenChange }: ConsultModalProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-lg">
-        <DialogHeader>
-          <DialogTitle className="text-2xl font-bold text-center">
+      <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
+        <DialogHeader className="sticky top-0 bg-background z-10 pb-4">
+          <DialogTitle className="text-2xl font-bold text-center pr-8">
             预约1v1求职咨询
           </DialogTitle>
           <DialogDescription className="text-center text-lg mt-2">

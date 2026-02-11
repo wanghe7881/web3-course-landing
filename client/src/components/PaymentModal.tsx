@@ -17,9 +17,9 @@ interface PaymentModalProps {
 export function PaymentModal({ open, onOpenChange, planName, price }: PaymentModalProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle className="text-2xl font-bold text-center">
+      <DialogContent className="sm:max-w-md max-h-[90vh] overflow-y-auto">
+        <DialogHeader className="sticky top-0 bg-background z-10 pb-4">
+          <DialogTitle className="text-2xl font-bold text-center pr-8">
             购买 {planName}
           </DialogTitle>
           <p className="text-center text-muted-foreground mt-2">
